@@ -2,7 +2,7 @@
 title:               ViolentTestPen
 tagline:             'My CTF Writeups'
 description:         'I post my CTF writeups here. Most of them are pwns'
-url:                 http://violenttestpen.github.io
+url:                 https://violenttestpen.github.io
 baseurl:             ''
 paginate:            5
 permalink:           pretty
