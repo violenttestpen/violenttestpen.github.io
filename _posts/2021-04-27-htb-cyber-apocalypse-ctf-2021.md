@@ -546,7 +546,7 @@ void inventory() {
 }
 ```
 
-As we will revisit in the next section, we need the number of pies to be `21` before we proceed to `stare()`. This option simply drops any number of pies, instead of adding them. So it seems that we cannot increase the number of pies in this function. Or can we?
+As we will find out in the next section, we will need the number of pies to be `21` before we proceed to `stare()`. This option simply drops any number of pies, instead of adding them. So it seems that we cannot increase the number of pies this way. Or can we?
 
 Recall that `"%d"` in scanf reads in a signed integer, compared to `"%u"` which reads in an unsigned integer, so technically speaking we can provide a negative number so that instead of dropping `x` number of pies, we're adding by the same amount instead. Hence, to hit `21` pies, we need to drop _10 - 21 =_ `-11` pies in total.
 
@@ -591,7 +591,7 @@ This 1st part of the function simply increases the number of pies by 1.
 |       ,=< 0x00000da0      755c           jne 0xdfe
 ```
 
-Afterwards, the program will check if we are holding `0x16` or `22` 🥧. It'll skip over the vulnerable function unless we have exactly that amount.
+Afterwards, the program will check if we are holding `0x16` or `22` 🥧. It'll skip over the vulnerable function that we need to visit unless we have exactly that amount.
 
 ```
 |       |   0x00000da2      488d3d180300.  lea rdi, str.e_1_32m        ; 0x10c1 ; const char *format
@@ -614,7 +614,7 @@ Afterwards, the program will check if we are holding `0x16` or `22` 🥧. It'll 
 <output truncated>
 ```
 
-Finally, it'll read in `0x40` or `64` bytes of input. After 56 bytes, it'll begin to overwrite the return address. This is great, except for the fact that we don't have anymore space afterwards to stuff our payload in. Thus, we have to use the 56 bytes from the start of the payload address to store our payload. We'll need to create a ROP chain as we can't directly execute shellcode on the stack due to the NX bit being set. We will first calculate the libc base address so that we can retrieve addresses to `system()`, `exit()`, and the `/bin/sh` string.
+Finally, it'll read in `0x40` or `64` bytes of input. After 56 bytes, it'll begin to overwrite the return address. This is great, except for the fact that we won't have any more space afterwards to stuff our payload in. Thus, we'll have to use the 56 bytes from the start of the payload address to store our payload. We'll need to create a ROP chain as we can't directly execute shellcode on the stack due to the NX bit being set. We will first calculate the libc base address so that we can retrieve addresses to `system()`, `exit()`, and the `/bin/sh` string.
 
 ```python
 __libc_start_main = 0x7fe8c4f5db10
